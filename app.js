@@ -21,7 +21,11 @@ UI.prototype.addBookToList = function (book) {
   list.appendChild(row);
   console.log(row);
 };
+UI.prototype.clearList = function () {
+  document.getElementById('book-list').innerHTML = '';
+};
 
+const ui = new UI();
 //Event Listeners
 document.getElementById('book-form').addEventListener('submit', function (e) {
   //get form values
@@ -35,10 +39,14 @@ document.getElementById('book-form').addEventListener('submit', function (e) {
   const book = new Book(title, author, isbn);
 
   //instantiate UI Object
-  const ui = new UI();
   ui.addBookToList(book);
 
   console.log(
     `The title of the book is ${title}, and the author is ${author}. It has an ISBN of ${isbn}`
   );
+});
+document.getElementById('clear').addEventListener('click', function (e) {
+  console.log('works');
+  e.preventDefault();
+  ui.clearList();
 });
