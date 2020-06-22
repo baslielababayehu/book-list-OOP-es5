@@ -24,6 +24,18 @@ UI.prototype.addBookToList = function (book) {
 UI.prototype.clearList = function () {
   document.getElementById('book-list').innerHTML = '';
 };
+UI.prototype.showAlert = function (message, className) {
+  const div = document.createElement('div');
+  div.className = `alert ${className}`;
+  div.appendChild(document.createTextNode(message));
+  const container = document.querySelector('.container');
+  const form = document.querySelector('#book-form');
+  console.log('works till here');
+  container.insertBefore(div, form);
+  setTimeout(function () {
+    document.querySelector('.alert').remove();
+  }, 2500);
+};
 
 const ui = new UI();
 //Event Listeners
@@ -35,11 +47,17 @@ document.getElementById('book-form').addEventListener('submit', function (e) {
     author = document.getElementById('author').value,
     isbn = document.getElementById('isbn').value;
 
-  //instantiate book
-  const book = new Book(title, author, isbn);
+  if (title === '' || author === '' || isbn === '') {
+    ui.showAlert('You have some fields missing', 'error');
+  } else {
+    //instantiate book
+    const book = new Book(title, author, isbn);
 
-  //instantiate UI Object
-  ui.addBookToList(book);
+    //instantiate UI Object
+    ui.addBookToList(book);
+  }
+
+  //add an alert
 
   console.log(
     `The title of the book is ${title}, and the author is ${author}. It has an ISBN of ${isbn}`
