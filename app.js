@@ -30,13 +30,20 @@ UI.prototype.showAlert = function (message, className) {
   div.appendChild(document.createTextNode(message));
   const container = document.querySelector('.container');
   const form = document.querySelector('#book-form');
-  console.log('works till here');
+  // console.log('works till here');
   container.insertBefore(div, form);
   setTimeout(function () {
     document.querySelector('.alert').remove();
   }, 2500);
 };
 
+UI.prototype.removeBookFromList = function (e) {
+  console.log(e);
+  if (e.innerHTML === 'X') {
+    e.parentElement.parentElement.remove();
+    ui.showAlert('The book has been deleted!', 'success');
+  }
+};
 const ui = new UI();
 //Event Listeners
 document.getElementById('book-form').addEventListener('submit', function (e) {
@@ -55,6 +62,8 @@ document.getElementById('book-form').addEventListener('submit', function (e) {
 
     //instantiate UI Object
     ui.addBookToList(book);
+    ui.showAlert('The book has been added!', 'success');
+    console.log(ui);
   }
 
   //add an alert
@@ -66,5 +75,20 @@ document.getElementById('book-form').addEventListener('submit', function (e) {
 document.getElementById('clear').addEventListener('click', function (e) {
   console.log('works');
   e.preventDefault();
+  // window.confirm('Are you sure?');
   ui.clearList();
+  ui.showAlert('The books have been cleared!', 'success');
+});
+
+// function removeBook() {
+//   console.log('remove book');
+// }
+
+// listenForDeleteEvent = function () {
+//   console.log('remove book now');
+// };
+
+document.getElementById('book-list').addEventListener('click', function (e) {
+  e.preventDefault();
+  ui.removeBookFromList(e.target);
 });
